@@ -49,7 +49,12 @@ public class ChatListener implements Listener {
 			// 正規表現に一致
 			if (m.find()){
 				Player player = event.getBukkitEvent().getPlayer();
-				Actions.message(null, player, "&cYou can use only Japanese or English on Global-Chat.");
+
+				// KickPlayer
+				// Actions.message(null, player, "&cYou can use only Japanese or English in Global-Chat.");
+				log.info(logPrefix+player.getName()+": "+message);
+				player.kickPlayer("Please use Japanese or English in Global-Chat.");
+
 				// イベントキャンセル
 				event.getBukkitEvent().setCancelled(true);
 			}
