@@ -1,0 +1,4 @@
+StopKorean
+==========
+
+CraftBukkit plugin
