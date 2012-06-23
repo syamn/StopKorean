@@ -1,33 +1,43 @@
 # StopKorean Configuration file for version 1.00
-# @author しゃむ <admin@sakura-server.net>
-# ハングルを使ったスパムを無効化します
-# Minecraftフォーラムスレッド:
+# @author syamn <admin@sakura-server.net>
+# Anti-Spamming Plugin!
+# Minecraft JapanForum:
 # github: https://github.com/syamn/StopKorean
 
 #==================#
 #   Basic Config   #
 #==================#
-# 違反したプレイヤーにメッセージを送ります
+# Send warning messages when player speaking in Korean.
+# Can use a colorcode(&0-&f) to warning message.
+# default: false
 WarnPlayer: false
-WarnMessage: "&4Please use Japanese or English."
+WarnMessage: "&4[WARNING] Please use Japanese or English!"
 
-# 違反したプレイヤーをKickします
-# WarnPlayerがtrueの場合でも、こちらの設定が優先されます
+# Kick player when speaking in Korean.
+# default: true
 KickPlayer: true
 KickMessage: "Please use Japanese or English."
 
-# コンソールに無効化されたハングルメッセージをロギングします
+# NOTE: If both WarnPlayer and KickPlayer are true, KickPlayer setting will take precedence. So player kicked by server.
+#       If both settings are false, nothing happens. And follow the CancelEvent setting.
+
+# Logging violation Korean message to Console
+# default: true
 LogToConsole: true
 
-# これをfalseにすると、違反したメッセージが通常の発言としてそのまま表示されるようになります
+# If it set to false, violation messages will be displayed to in-game chat, normally.
+# default: true (Recommended)
 CancelEvent: true
 
 #=====================#
 #   Herochat Config   #
 #=====================#
-# Herochatプラグインを使う場合trueに変更してください
+# If you want to hook the Herochat, change this setting to true.
+# If you changed this setting, need to server restart or use reload command.
+# default: false
 UseHerochat: false
-# UseHerochatがtrueになっている場合、ここで検閲するチャンネルを指定します
+# If UseHerochat set to true, specify the channels to censoring Korean.
+# This channel settings can be reloaded when use "/stopkorean reload" command.
 HerochatChannnels:
 - Global
 - Local
