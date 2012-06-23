@@ -54,7 +54,7 @@ public class ConfigurationManager {
 	/**
 	 * 設定ファイルを読み込む
 	 */
-	public void loadConfig(){
+	public void loadConfig(boolean initialLoad){
 		// ディレクトリ作成
 		createDirs();
 
@@ -84,8 +84,11 @@ public class ConfigurationManager {
 		cancelEvent = plugin.getConfig().getBoolean("CancelEvent", true);
 
 		/* Herochat Configs */
-		useHerochat = plugin.getConfig().getBoolean("UseHerochat", false);
-		hcChannels = plugin.getConfig().getStringList("HerochatChannnels");
+		if (initialLoad){
+			// プラグイン起動時(onEnable)以外ではこの設定を再読み込みしない
+			useHerochat = plugin.getConfig().getBoolean("UseHerochat", false);
+			hcChannels = plugin.getConfig().getStringList("HerochatChannnels");
+		}
 	}
 
 	/**

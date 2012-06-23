@@ -48,6 +48,9 @@ public class HerochatListener implements Listener {
 			// 正規表現に一致
 			if (m.find()){
 				Player player = event.getBukkitEvent().getPlayer();
+				// Has Permission
+				if (player.hasPermission("stopkorean.ignore"))
+					return;
 
 				// KickPlayer
 				if (plugin.getConfigs().kickPlayer){

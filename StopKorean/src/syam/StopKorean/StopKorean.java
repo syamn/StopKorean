@@ -30,6 +30,7 @@ public class StopKorean extends JavaPlugin{
 	// Hookup plugins
 	public Herochat herochat;
 	public ChannelManager channelmgr;
+	private boolean usingHerochat = false;
 
 	// Configs
 	public final static String regex = "[\\x{1100}-\\x{11f9}\\x{3131}-\\x{318e}\\x{ac00}-\\x{d7a3}]";// 発言禁止フィルタ ハングルのUnicode指定
@@ -44,7 +45,7 @@ public class StopKorean extends JavaPlugin{
 
 		// 設定読み込み
 		try{
-			config.loadConfig();
+			config.loadConfig(true);
 		}catch(Exception ex){
 			log.warning(logPrefix+ "an error occured while trying to load the config file.");
 			ex.printStackTrace();
@@ -57,6 +58,10 @@ public class StopKorean extends JavaPlugin{
 			// Herochatを使わない通常のリスナー登録
 			pm.registerEvents(defaultchatListener, this);
 		}
+
+		// コマンド登録
+		getServer().getPluginCommand("stopkorean").setExecutor(new StopKoreanCommand(this));
+		log.info(logPrefix+"Initialized Command.");
 
 		// メッセージ表示
 		PluginDescriptionFile pdfFile=this.getDescription();
@@ -93,7 +98,18 @@ public class StopKorean extends JavaPlugin{
 
 		// イベントを登録
 		pm.registerEvents(herochatListener, this);
+		usingHerochat = true;
 		return true;
+	}
+
+	/* getter */
+
+	/**
+	 * Herochat使用有無
+	 * @return
+	 */
+	public boolean getUsingHerochat(){
+		return usingHerochat;
 	}
 
 	/**

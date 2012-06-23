@@ -7,3 +7,15 @@ website: http://sakura-server.net/
 depend: [Herochat]
 ##  Original Author     ##
 author: syam
+commands:
+    stopkorean:
+      usage: /honeychest - to see the help
+      aliases: [sk]
+      description: To see the Honeychest help.
+permissions:
+    stopkorean.reload:
+        default: op
+        description: Can reloading StopKorean configs.
+    stopkorean.ignore:
+        default: op
+        description: Can speaking in Korean.
