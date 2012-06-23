@@ -14,7 +14,7 @@ import com.dthielke.herochat.ChannelChatEvent;
 import com.dthielke.herochat.Chatter;
 import com.dthielke.herochat.Herochat;
 
-public class ChatListener implements Listener {
+public class HerochatListener implements Listener {
 	public final static Logger log = StopKorean.log;
 	private static final String logPrefix = StopKorean.logPrefix;
 	private static final String msgPrefix = StopKorean.msgPrefix;
@@ -22,7 +22,7 @@ public class ChatListener implements Listener {
 	private final StopKorean plugin;
 	private Herochat herochat;
 
-	public ChatListener(StopKorean plugin){
+	public HerochatListener(final StopKorean plugin){
 		this.plugin = plugin;
 		this.herochat = this.plugin.herochat;
 	}
@@ -39,9 +39,8 @@ public class ChatListener implements Listener {
 		// 発言先チャンネル
 		String cname = event.getChannel().getName();
 
-		// 発言先チャットがグローバルまたはローカルの場合
-		if (plugin.globalsList.contains(cname)){
-
+		// 発言先チャットが設定ファイルに記載されている場合
+		if (plugin.getConfigs().hcChannels.contains(cname)){
 			String message = event.getBukkitEvent().getMessage();
 			// 正規表現宣言
 			Pattern p = Pattern.compile(plugin.regex);
@@ -51,12 +50,22 @@ public class ChatListener implements Listener {
 				Player player = event.getBukkitEvent().getPlayer();
 
 				// KickPlayer
-				// Actions.message(null, player, "&cYou can use only Japanese or English in Global-Chat.");
-				log.info(logPrefix+player.getName()+": "+message);
-				player.kickPlayer("Please use Japanese or English in Global-Chat.");
+				if (plugin.getConfigs().kickPlayer){
+					player.kickPlayer(plugin.getConfigs().kickMessage);
+				} // WarnPlayer
+				else if (plugin.getConfigs().warnPlayer){
+					Actions.message(null, player, plugin.getConfigs().warnMessage);
+				}
 
-				// イベントキャンセル
-				event.getBukkitEvent().setCancelled(true);
+				// LogToConsole
+				if (plugin.getConfigs().logToConsole){
+					log.info(logPrefix+player.getName()+": "+message);
+				}
+
+				// CancelEvent
+				if (plugin.getConfigs().cancelEvent){
+					event.getBukkitEvent().setCancelled(true);
+				}
 			}
 		}
 	}

@@ -1,0 +1,34 @@
+# StopKorean Configuration file for version 1.00
+# @author しゃむ <admin@sakura-server.net>
+# ハングルを使ったスパムを無効化します
+# Minecraftフォーラムスレッド:
+# github: https://github.com/syamn/StopKorean
+
+#==================#
+#   Basic Config   #
+#==================#
+# 違反したプレイヤーにメッセージを送ります
+WarnPlayer: false
+WarnMessage: "&4Please use Japanese or English."
+
+# 違反したプレイヤーをKickします
+# WarnPlayerがtrueの場合でも、こちらの設定が優先されます
+KickPlayer: true
+KickMessage: "Please use Japanese or English."
+
+# コンソールに無効化されたハングルメッセージをロギングします
+LogToConsole: true
+
+# これをfalseにすると、違反したメッセージが通常の発言としてそのまま表示されるようになります
+CancelEvent: true
+
+#=====================#
+#   Herochat Config   #
+#=====================#
+# Herochatプラグインを使う場合trueに変更してください
+UseHerochat: false
+# UseHerochatがtrueになっている場合、ここで検閲するチャンネルを指定します
+HerochatChannnels:
+- Global
+- Local
+- World
