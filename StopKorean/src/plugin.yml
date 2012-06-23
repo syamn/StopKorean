@@ -1,17 +1,17 @@
 ##  Plugin Information  ##
 name: StopKorean
-version: 1.2
+version: 2.0
 main: syam.StopKorean.StopKorean
-description: StopKorean for SakuraServer
+description: Stop Korean Spamming
 website: http://sakura-server.net/
-depend: [Herochat]
+softdepend: [Herochat]
 ##  Original Author     ##
 author: syam
 commands:
     stopkorean:
-      usage: /honeychest - to see the help
+      usage: /stopkorean - to see the help
       aliases: [sk]
-      description: To see the Honeychest help.
+      description: To see the StopKorean help.
 permissions:
     stopkorean.reload:
         default: op

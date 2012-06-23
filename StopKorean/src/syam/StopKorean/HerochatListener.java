@@ -62,7 +62,7 @@ public class HerochatListener implements Listener {
 
 				// LogToConsole
 				if (plugin.getConfigs().logToConsole){
-					log.info(logPrefix+player.getName()+": "+message);
+					log.info(logPrefix+"[Ch: "+cname+"]"+player.getName()+": "+message);
 				}
 
 				// CancelEvent

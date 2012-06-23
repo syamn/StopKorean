@@ -8,7 +8,6 @@ config.yml 日本語説明
 # StopKorean Configuration file for version 1.00
 # @author しゃむ <admin@sakura-server.net>
 # ハングルを使ったスパムを無効化します
-# Minecraftフォーラムスレッド:
 # github: https://github.com/syamn/StopKorean
 
 #==================#

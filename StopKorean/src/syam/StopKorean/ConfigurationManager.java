@@ -1,6 +1,14 @@
 package syam.StopKorean;
 
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -59,13 +67,18 @@ public class ConfigurationManager {
 		createDirs();
 
 		// 設定ファイルパス取得
-		String filepath = pluginDir + System.getProperty("file.separator") + "config.yml";
-		File file = new File(filepath);
-
+		File file = new File(pluginDir, "config.yml");
+		String filepath = file.getPath();
 		// 設定ファイルが見つからなければデフォルトのファイルをコピー
 		if (!file.exists()){
-			plugin.saveDefaultConfig();
+			extractResource("/config.yml", pluginDir, false, true);
 			log.info(logPrefix+ "config.yml is not found! Created default config.yml!");
+		}
+
+		// readme.txt
+		file = new File(pluginDir, "readme.txt");
+		if (!file.exists()){
+			extractResource("/readme.txt", pluginDir, false, true);
 		}
 
 		plugin.reloadConfig();
@@ -87,8 +100,8 @@ public class ConfigurationManager {
 		if (initialLoad){
 			// プラグイン起動時(onEnable)以外ではこの設定を再読み込みしない
 			useHerochat = plugin.getConfig().getBoolean("UseHerochat", false);
-			hcChannels = plugin.getConfig().getStringList("HerochatChannnels");
 		}
+		hcChannels = plugin.getConfig().getStringList("HerochatChannnels");
 	}
 
 	/**
@@ -111,5 +124,91 @@ public class ConfigurationManager {
 		if (!dir.mkdir()){
 			log.warning(logPrefix+ "Can't create directory: " + dir.getName());
 		}
+	}
+
+	/**
+	 * リソースファイルをファイルに出力する
+	 * @param from 出力元のファイルパス
+	 * @param to 出力先のファイルパス
+	 * @param force jarファイルの更新日時より新しいファイルが既にあっても強制的に上書きするか
+	 * @param checkenc 出力元のファイルを環境によって適したエンコードにするかどうか
+	 */
+	static void extractResource(String from, File to, boolean force, boolean checkenc){
+		File of = to;
+
+		// ファイル展開先がディレクトリならファイルに変換、ファイルでなければ返す
+		if (to.isDirectory()){
+			String filename = new File(from).getName();
+			of = new File(to, filename);
+		}else if(!of.isFile()){
+			log.warning(logPrefix+ "not a file:" + of);
+			return;
+		}
+
+		// ファイルが既に存在して、そのファイルの最終変更日時がJarファイルより後ろなら、forceフラグが真の場合を除いて返す
+		if (of.exists() && of.lastModified() > getJarFile().lastModified() && !force){
+			return;
+		}
+
+		OutputStream out = null;
+		InputStream in = null;
+		InputStreamReader reader = null;
+		OutputStreamWriter writer =null;
+		DataInputStream dis = null;
+		try{
+			// jar内部のリソースファイルを取得
+			URL res = StopKorean.class.getResource(from);
+			if (res == null){
+				log.warning(logPrefix+ "Can't find "+ from +" in plugin Jar file");
+				return;
+			}
+			URLConnection resConn = res.openConnection();
+			resConn.setUseCaches(false);
+			in = resConn.getInputStream();
+
+			if (in == null){
+				log.warning(logPrefix+ "Can't get input stream from " + res);
+			}else{
+				// 出力処理 ファイルによって出力方法を変える
+				if (checkenc){
+					// 環境依存文字を含むファイルはこちら環境
+
+					reader = new InputStreamReader(in, "UTF-8");
+					writer = new OutputStreamWriter(new FileOutputStream(of)); // 出力ファイルのエンコードは未指定 = 自動で変わるようにする
+
+					int text;
+					while ((text = reader.read()) != -1){
+						writer.write(text);
+					}
+				}else{
+					// そのほか
+
+					out = new FileOutputStream(of);
+					byte[] buf = new byte[1024]; // バッファサイズ
+					int len = 0;
+					while((len = in.read(buf)) >= 0){
+						out.write(buf, 0, len);
+					}
+				}
+			}
+		}catch (Exception ex){
+			ex.printStackTrace();
+		}finally{
+			// 後処理
+			try{
+				if (out != null)
+					out.close();
+				if (in != null)
+					in.close();
+				if (reader != null)
+					reader.close();
+				if (writer != null)
+					writer.close();
+			}catch (Exception ex){}
+		}
+	}
+
+	public static File getJarFile(){
+		return new File("plugins","StopKorean.jar");
 	}
 }

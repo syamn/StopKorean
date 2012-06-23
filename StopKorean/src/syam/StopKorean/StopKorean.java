@@ -53,7 +53,7 @@ public class StopKorean extends JavaPlugin{
 
 		// プラグインフック
 		if (config.useHerochat && setupHerochat(pm)){
-			log.info(logPrefix+"Hooked to Herochat successfully!");
+			log.info(logPrefix+"Hooked to Herochat successfully and loaded censoring "+config.hcChannels.size()+" channels!");
 		}else{
 			// Herochatを使わない通常のリスナー登録
 			pm.registerEvents(defaultchatListener, this);

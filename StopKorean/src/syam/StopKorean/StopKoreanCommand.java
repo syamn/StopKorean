@@ -17,26 +17,6 @@ public class StopKoreanCommand implements CommandExecutor {
 	}
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args){
-		// 引数無し
-		if (args.length == 0){
-			// Herochat status
-			String m = "していません。";
-			if(plugin.getUsingHerochat())
-				m = "しています！";
-
-			Actions.message(sender, null, "&c===================================");
-			Actions.message(sender, null, "&bStopKorean Plugin version &3%version &bby syamn");
-			Actions.message(sender, null, " &aハングル文字によるスパムを禁止します！");
-			Actions.message(sender, null, " /stopkorean reload (/sk r)&7-");
-			Actions.message(sender, null, " 　　&7 設定ファイルを再読み込みします");
-			Actions.message(sender, null, " 　　&7 注)外部プラグインとの連携は反映されません。");
-			Actions.message(sender, null, " 　　&7 サーバを再起動するか、/reload コマンドを行ってください。");
-			Actions.message(sender, null, "&b 現在、Herochatプラグインとリンク"+m);
-			Actions.message(sender, null, "&c===================================");
-
-			return true;
-		}
-
 		// /stopkorean reload - ハニーチェストデータ保存
 		if (args.length >= 1 && (args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("r"))){
 			// 権限チェック
@@ -51,10 +31,30 @@ public class StopKoreanCommand implements CommandExecutor {
 				ex.printStackTrace();
 				return true;
 			}
-			Actions.message(sender, null, "&aConfiguration (only Basic configs) reloaded!");
+			Actions.message(sender, null, "&aConfiguration reloaded!");
+			return true;
 		}
 
-		return false;
+		// Show default messages
+
+		// Herochat status
+		String m = "していません。";
+		if(plugin.getUsingHerochat())
+			m = "しています！";
+
+		Actions.message(sender, null, "&c===================================");
+		Actions.message(sender, null, "&bStopKorean Plugin version &3%version &bby syamn");
+		Actions.message(sender, null, " &aハングル文字によるスパムを防ぎます！");
+		if (sender.hasPermission("stopkorean.reload")){
+			Actions.message(sender, null, " /stopkorean reload (/sk r)&7:");
+			Actions.message(sender, null, "  &7設定ファイルを再読み込みします");
+			Actions.message(sender, null, "  &7注)外部プラグインとの連携設定は反映されません。");
+			Actions.message(sender, null, "  &7サーバを再起動するか、/reload コマンドを行ってください。");
+			Actions.message(sender, null, "&b 現在Herochatプラグインとリンク"+m);
+		}
+		Actions.message(sender, null, "&c===================================");
+
+		return true;
 	}
 
 }
