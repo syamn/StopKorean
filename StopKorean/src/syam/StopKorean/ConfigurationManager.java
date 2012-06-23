@@ -73,8 +73,8 @@ public class ConfigurationManager {
 		// 項目取得
 
 		/* Basic Configs */
-		kickPlayer = plugin.getConfig().getBoolean("WarnPlayer", false);
-		kickMessage = plugin.getConfig().getString("WarnMessage", "Please use Japanese or English.");
+		warnPlayer = plugin.getConfig().getBoolean("WarnPlayer", false);
+		warnMessage = plugin.getConfig().getString("WarnMessage", "Please use Japanese or English.");
 
 		kickPlayer = plugin.getConfig().getBoolean("KickPlayer", true);
 		kickMessage = plugin.getConfig().getString("KickMessage", "Please use Japanese or English.");
