@@ -132,6 +132,7 @@ public class ConfigurationManager {
 	 * @param to 出力先のファイルパス
 	 * @param force jarファイルの更新日時より新しいファイルが既にあっても強制的に上書きするか
 	 * @param checkenc 出力元のファイルを環境によって適したエンコードにするかどうか
+	 * @author syam
 	 */
 	static void extractResource(String from, File to, boolean force, boolean checkenc){
 		File of = to;

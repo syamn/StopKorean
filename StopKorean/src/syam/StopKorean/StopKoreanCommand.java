@@ -17,7 +17,7 @@ public class StopKoreanCommand implements CommandExecutor {
 	}
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args){
-		// /stopkorean reload - ハニーチェストデータ保存
+		// /stopkorean reload - データ再読み込み
 		if (args.length >= 1 && (args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("r"))){
 			// 権限チェック
 			if (!sender.hasPermission("stopkorean.reload")){
